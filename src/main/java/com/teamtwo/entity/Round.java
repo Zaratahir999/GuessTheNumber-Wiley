@@ -2,8 +2,6 @@ package com.teamtwo.entity;
 
 import java.time.LocalDateTime;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +14,7 @@ public class Round {
 	private int roundId;
 	private int gameId;
 	private String guess;
+	private String result;
 	private LocalDateTime guessTime;
 	private String result;
 	

@@ -3,6 +3,7 @@ package com.teamtwo.model.persistence;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -16,21 +17,33 @@ public class RoundDaoImpl implements RoundDao {
 
 	@Override
 	public List<Round> getAllRoundsByGameId(int gameId) {
-		// TODO Auto-generated method stub
-		return null;
+		return jdbcTemplate.query("SELECT * FROM round", new RoundRowMapper());
 	}
 
 	@Override
 	public Round getRound(int roundId) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return jdbcTemplate.queryForObject("SELECT * FROM round WHERE roundId=?", new RoundRowMapper(), roundId);
+		}
+		catch(EmptyResultDataAccessException ex) {
+			return null;
+		}
 	}
 
 	@Override
 	public Round addRound(Round round) {
-		// TODO Auto-generated method stub
-		return null;
-	
+		try {
+			jdbcTemplate.update("INSERT INTO round VALUES(?,?,?,?,?)",
+					round.getRoundId(),
+					round.getGameId(),
+					round.getGuess(),
+					round.getResult(),
+					round.getGuessTime());
+
+			return round;
+		} catch (Exception ex) {
+			return null; // or handle the exception appropriately
+		}
 	}
 
 }
