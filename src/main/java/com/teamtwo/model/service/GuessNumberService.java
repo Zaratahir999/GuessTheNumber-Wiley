@@ -10,11 +10,11 @@ public interface GuessNumberService {
 	List<Game> getAllGames();
 	Game getGameById (int gameId);
 	Game addGame (Game game);
-	boolean updateGame (Game game);
+//	boolean updateGame (String status, int gameId);
 	List<Round> getAllRoundsbyGameId (int gameId);
 	Round getRound (int roundId);
 	Round addRound (Round round);
-	Round guess (int gameId, String guess);
+	Round guess (Round round);
 	Game startGame();
 	String getGameResults (String guess, String answer);
 	

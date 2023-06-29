@@ -34,13 +34,20 @@ public class GameDaoImpl implements GameDao {
 			return  null;
 		}
 	}
+//	@Override
+//	public int updateGame(String status, int gameId) {
+//		try {
+//			return jdbcTemplate.update("UPDATE GUESSNUMBER SET STATUS = ? WHERE GAMEID= ?", status, gameId);
+//
+//		}catch (Exception ex) {
+//			return 0;
+//		}
+//	}
 	@Override
-	public int updateGame(String status, int gameId) {
-		try {
-			return jdbcTemplate.update("UPDATE GUESSNUMBER SET STATUS = ? WHERE GAMEID= ?", status, gameId);
+	public boolean updateGame(Game game) {
+		final String UPDATE_GAME = "UPDATE GUESSNUMBER SET ANSWER = ? , STATUS= ? WHERE GAMEID = ?";
+		return jdbcTemplate.update(UPDATE_GAME, game.getAnswer(),game.isStatus(), game.getGameId())>0;
 
-		}catch (Exception ex) {
-			return 0;
-		}
 	}
+
 }

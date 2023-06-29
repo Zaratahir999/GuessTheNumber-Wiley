@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.teamtwo.entity.Game;
 import com.teamtwo.entity.GameList;
 import com.teamtwo.entity.Round;
@@ -47,4 +44,29 @@ public class GuessNumberResource {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 	}
+
+	//	"game/{gameId}" - GET – Returns a specific game based on ID. Be sure in-progress games do not display their answer.
+	@GetMapping(path = "/game/{gameId}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Game> getGameById(@PathVariable("gameId") int gameId) {
+		Game game = guessNumberService.getGameById(gameId);
+		ResponseEntity<Game> response = null;
+		if(game!=null)
+			response=new ResponseEntity<Game>(game, HttpStatus.FOUND);
+		else
+			response=new ResponseEntity<Game>(game,HttpStatus.NOT_FOUND);
+		return response;
+	}
+
+	//	"rounds/{gameId} – GET – Returns a list of rounds for the specified game sorted by time.
+	@GetMapping(path = "/round/{gameId}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Round> getAllRoundsByGameId(@PathVariable("gameId") int gameId) {
+		List<Round> round = guessNumberService.getAllRoundsbyGameId(gameId);
+		ResponseEntity<Round> response = null;
+		if(round!=null)
+			response=new ResponseEntity<Round>((Round) round, HttpStatus.FOUND);
+		else
+			response=new ResponseEntity<Round>((Round) round,HttpStatus.NOT_FOUND);
+		return response;
+	}
+
 }
