@@ -4,18 +4,15 @@ import com.teamtwo.entity.Round;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static java.sql.Timestamp.*;
-
-public class RoundRowMapper implements RowMapper<Round>{
+public class RoundMapper implements RowMapper<Round>{
 
     @Override
     public Round mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-        Round round = new Round(rowNum, rowNum, null, null, null);
+        Round round = new Round();
 
         round.setRoundId(resultSet.getInt("roundId"));
         round.setGameId(resultSet.getInt("gameId"));

@@ -17,13 +17,13 @@ public class RoundDaoImpl implements RoundDao {
 
 	@Override
 	public List<Round> getAllRoundsByGameId(int gameId) {
-		return jdbcTemplate.query("SELECT * FROM round", new RoundRowMapper());
+		return jdbcTemplate.query("SELECT * FROM round", new RoundMapper());
 	}
 
 	@Override
 	public Round getRound(int roundId) {
 		try {
-			return jdbcTemplate.queryForObject("SELECT * FROM round WHERE roundId=?", new RoundRowMapper(), roundId);
+			return jdbcTemplate.queryForObject("SELECT * FROM round WHERE roundId=?", new RoundMapper(), roundId);
 		}
 		catch(EmptyResultDataAccessException ex) {
 			return null;
