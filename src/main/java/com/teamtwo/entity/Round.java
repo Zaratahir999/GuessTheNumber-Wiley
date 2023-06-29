@@ -16,7 +16,7 @@ public class Round {
 	private String guess;
 	private String result;
 	private LocalDateTime guessTime;
-	private String result;
+	
 	
 	
 	public Round(int roundId, int gameId, String guess, LocalDateTime guessTime, String result) {

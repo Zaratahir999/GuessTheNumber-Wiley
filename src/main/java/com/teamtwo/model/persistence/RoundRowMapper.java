@@ -15,7 +15,7 @@ public class RoundRowMapper implements RowMapper<Round>{
 
     @Override
     public Round mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-        Round round = new Round();
+        Round round = new Round(rowNum, rowNum, null, null, null);
 
         round.setRoundId(resultSet.getInt("roundId"));
         round.setGameId(resultSet.getInt("gameId"));
