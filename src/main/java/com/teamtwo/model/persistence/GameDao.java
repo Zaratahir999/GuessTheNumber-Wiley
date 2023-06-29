@@ -9,7 +9,7 @@ public interface GameDao {
 	 List<Game> getAllGames();
 	 Game getGamebyId (int gameId);
 	 Game addGame (Game game);
-	 boolean updateGame (Game game);
+	 int  updateGame (String status, int gameId));
 	 
 	 
 	 
