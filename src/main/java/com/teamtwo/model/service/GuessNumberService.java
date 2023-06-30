@@ -17,8 +17,8 @@ public interface GuessNumberService {
 	Round guess (Round round);
 	Game startGame();
 	String getGameResults (String guess, String answer);
-	
-	
+
+	String getNewAnswer();
 	
 
 }

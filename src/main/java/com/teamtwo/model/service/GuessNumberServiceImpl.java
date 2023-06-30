@@ -1,6 +1,8 @@
 package com.teamtwo.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ public class GuessNumberServiceImpl implements GuessNumberService {
 
 	@Autowired
 	private GameDao gameDao;
+
+	@Autowired
 	private RoundDao roundDao;
 
 
@@ -57,29 +61,46 @@ public class GuessNumberServiceImpl implements GuessNumberService {
 
 	@Override
 	public Round guess(Round round) {
-		String answer = gameDao.getGamebyId(round.getGameId()).getAnswer();
+		Game game = gameDao.getGamebyId(round.getGameId());
+		String answer = game.getAnswer();
 		String guess = round.getGuess();
-//		Round round2= determineResult(round,guess, answer);
 
-		if (guess.equals(answer)) {
-			Game game = getGameById(round.getGameId());
+		String result = getGameResults(guess, answer);
+
+		if(result.equals("e:4:p:0")) {
 			game.setStatus(true);
-			game.setAnswer(answer);
 			gameDao.updateGame(game);
 		}
-		setTimeStamp(round2);
-		return roundDao.addRound(round2);
+
+		//set result and add round to storage
+		round.setResult(result);
+
+		round = roundDao.addRound(round);
+
+		return round;
 	}
 
+	public String getNewAnswer() {
+		Random rand = new Random();
+		String randString = "";
+		for(int i=0; i<4; i++) {
+			int randNumber = rand.nextInt(10);
+			while(randString.contains(randNumber+"")) {
+				randNumber = rand.nextInt(10);
+			}
+			randString += randNumber;
+		}
+		return randString;
+	}
 
 	@Override
 	public Game startGame() {
-		Game game = new Game();
-		game.setAnswer(getRandom4DigitNumber()); // set the randomly generated answer for the game
-		game = gameDao.addGame(game);
+		Game newGame = new Game();
+		newGame.setStatus(false);
+		newGame.setAnswer(getNewAnswer());
+		newGame = gameDao.addGame(newGame);
 
-		return game.getGameId();
-		return null;
+		return newGame;
 	}
 
 	@Override
