@@ -15,10 +15,9 @@ public interface GuessNumberService {
 	Round getRound (int roundId);
 	Round addRound (Round round);
 	Round guess (Round round);
-	Game startGame();
 	String getGameResults (String guess, String answer);
-
-	String getNewAnswer();
+	String beginNewGame();
+	String generateAnswer();
 	
 
 }

@@ -1,8 +1,6 @@
 package com.teamtwo.model.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,28 +19,54 @@ public class GuessNumberServiceImpl implements GuessNumberService {
 	@Autowired
 	private RoundDao roundDao;
 
-
-	@Override
-	public List<Game> getAllGames() {
-		return gameDao.getAllGames();
-	}
-
-	@Override
-	public Game getGameById(int gameId) {
-		return gameDao.getGamebyId(gameId);
-	}
+	private final String REDACTED = "****";
 
 	@Override
 	public Game addGame(Game game) {
 		return gameDao.addGame(game);
 	}
 
-//	@Override
-//	public Game updateGame(Game game) {
-//		if(gameDao.updateGame(status, gameId)>0)
-//			return getGameById(gameId);
-//		return null;;
-//	}
+	public Game getGameById(int gameId) {
+		Game game = gameDao.getGamebyId(gameId);
+
+		if (game!=null && !game.isFinished()) {
+			game.setAnswer(REDACTED);
+			return game;
+		}
+
+		return game;
+	}
+
+	public String beginNewGame() {
+		Game newGame = new Game();
+		newGame.setAnswer(generateAnswer());
+		newGame = addGame(newGame);
+		return "Game " + newGame.getGameId() + " has been created!";
+	}
+
+	public String generateAnswer() {
+		Set<Integer> uniqueNum = new HashSet<>();
+		Random rand = new Random();
+		while (uniqueNum.size() < 4) {
+			uniqueNum.add(rand.nextInt(10));
+		}
+		String answer = "";
+		for (Integer num : uniqueNum) {
+			answer += num;
+		}
+		return answer;
+	}
+	public List<Game> getAllGames() {
+		List<Game> games = gameDao.getAllGames();
+
+		for (Game game : games) {
+			if (!game.isFinished()) {
+				game.setAnswer(REDACTED);
+			}
+		}
+		return games;
+	}
+
 
 	@Override
 	public List<Round> getAllRoundsbyGameId(int gameId) {
@@ -68,40 +92,20 @@ public class GuessNumberServiceImpl implements GuessNumberService {
 		String result = getGameResults(guess, answer);
 
 		if(result.equals("e:4:p:0")) {
-			game.setStatus(true);
+			game.setFinished(true);
 			gameDao.updateGame(game);
 		}
 
 		//set result and add round to storage
 		round.setResult(result);
 
-		round = roundDao.addRound(round);
+		round = addRound(round);
 
 		return round;
 	}
 
-	public String getNewAnswer() {
-		Random rand = new Random();
-		String randString = "";
-		for(int i=0; i<4; i++) {
-			int randNumber = rand.nextInt(10);
-			while(randString.contains(randNumber+"")) {
-				randNumber = rand.nextInt(10);
-			}
-			randString += randNumber;
-		}
-		return randString;
-	}
 
-	@Override
-	public Game startGame() {
-		Game newGame = new Game();
-		newGame.setStatus(false);
-		newGame.setAnswer(getNewAnswer());
-		newGame = gameDao.addGame(newGame);
 
-		return newGame;
-	}
 
 	@Override
 	public String getGameResults(String guess, String answer) {

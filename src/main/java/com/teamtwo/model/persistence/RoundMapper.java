@@ -18,8 +18,7 @@ public class RoundMapper implements RowMapper<Round>{
         round.setGameId(resultSet.getInt("gameId"));
         round.setGuess(resultSet.getString("guess"));
         round.setResult(resultSet.getString("result"));
-        Timestamp timestamp = resultSet.getTimestamp("guessTime");
-        round.setGuessTime(timestamp.toLocalDateTime());
+        round.setGuessTime(resultSet.getTimestamp("guessTime").toLocalDateTime());
         return round;
     }
 }

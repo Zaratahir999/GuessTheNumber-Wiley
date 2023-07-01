@@ -10,7 +10,7 @@ public class GameMapper implements RowMapper<Game> {
 
         game.setGameId(resultSet.getInt("GAMEID"));
         game.setAnswer(resultSet.getString("ANSWER"));
-        game.setStatus(resultSet.getBoolean("STATUS"));
+        game.setFinished(resultSet.getBoolean("FINISHED"));
 
         return game;
     }

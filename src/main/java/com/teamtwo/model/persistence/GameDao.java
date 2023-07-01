@@ -12,7 +12,8 @@ public interface GameDao {
 //	 int  updateGame (String status, int gameId);
 
 	boolean updateGame(Game game);
-	 
+
+
 	 
 
 }

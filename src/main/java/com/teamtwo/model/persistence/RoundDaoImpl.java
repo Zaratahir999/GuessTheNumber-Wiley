@@ -17,7 +17,7 @@ public class RoundDaoImpl implements RoundDao {
 
 	@Override
 	public List<Round> getAllRoundsByGameId(int gameId) {
-		return jdbcTemplate.query("SELECT * FROM round", new RoundMapper());
+		return jdbcTemplate.query("SELECT * FROM round where gameId  = ? order by gameTime", new RoundMapper(), gameId);
 	}
 
 	@Override
@@ -33,12 +33,13 @@ public class RoundDaoImpl implements RoundDao {
 	@Override
 	public Round addRound(Round round) {
 		try {
-			jdbcTemplate.update("INSERT INTO round VALUES(?,?,?,?,?)",
-					round.getRoundId(),
+			jdbcTemplate.update("INSERT INTO round(gameId, guess, result) VALUES(?,?,?)",
 					round.getGameId(),
 					round.getGuess(),
-					round.getResult(),
-					round.getGuessTime());
+					round.getResult());
+
+			round.setRoundId(getLastRoundId());
+			round.setGuessTime(round.getGuessTime());
 
 			return round;
 		} catch (Exception ex) {
@@ -46,4 +47,7 @@ public class RoundDaoImpl implements RoundDao {
 		}
 	}
 
+	private int getLastRoundId() {
+		return jdbcTemplate.queryForObject("SELECT roundId FROM round ORDER BY roundId DESC LIMIT 1", Integer.class);
+	}
 }
