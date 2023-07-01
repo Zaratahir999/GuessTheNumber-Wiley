@@ -5,7 +5,7 @@ use guessnumber;
 create table game(
 gameId INT PRIMARY KEY,
 answer CHAR(4) NOT NULL,
-status BOOLEAN NOT NULL DEFAULT 0
+finished BOOLEAN NOT NULL DEFAULT 0
 );
 
 create table round(
