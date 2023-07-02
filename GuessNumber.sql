@@ -1,19 +1,18 @@
-create database guessnumber;
+DROP DATABASE IF EXISTS guessnumber;
+CREATE DATABASE guessnumber;
 
-use guessnumber;
+USE guessnumber;
 
-create table game(
-gameId INT PRIMARY KEY,
+CREATE TABLE game(
+gameId INT PRIMARY KEY AUTO_INCREMENT,
 answer CHAR(4) NOT NULL,
-finished BOOLEAN NOT NULL DEFAULT 0
+finished BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-create table round(
-roundId INT PRIMARY KEY,
+CREATE TABLE round(
+roundId INT PRIMARY KEY AUTO_INCREMENT,
 gameId INT NOT NULL,
 guess CHAR(4) NOT NULL,
 result VARCHAR(10) NOT NULL,
-guessTime DATETIME NOT NULL,
+guessTime TIMESTAMP NOT NULL,
 FOREIGN KEY (gameId) REFERENCES game(gameId));
-
-select * from round;

@@ -1,68 +1,74 @@
 package com.teamtwo.entity;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Round {
 	
 	private int roundId;
 	private int gameId;
 	private String guess;
 	private String result;
-	private LocalDateTime guessTime;
-	
-	
-	
-	public Round(int roundId, int gameId, String guess, LocalDateTime guessTime, String result) {
-		super();
+	private Timestamp guessTime;
+
+	public Round() {
+	}
+
+	public Round(int roundId, int gameId, String guess, String result, Timestamp guessTime) {
 		this.roundId = roundId;
 		this.gameId = gameId;
 		this.guess = guess;
+		this.result = result;
 		this.guessTime = guessTime;
-		this.result= result;
 	}
+
 	public int getRoundId() {
 		return roundId;
 	}
+
 	public void setRoundId(int roundId) {
 		this.roundId = roundId;
 	}
+
 	public int getGameId() {
 		return gameId;
 	}
+
 	public void setGameId(int gameId) {
 		this.gameId = gameId;
 	}
+
 	public String getGuess() {
 		return guess;
 	}
+
 	public void setGuess(String guess) {
 		this.guess = guess;
 	}
-	public LocalDateTime getGuessTime() {
-		return guessTime;
-	}
-	public void setGuessTime(LocalDateTime guessTime) {
-		this.guessTime = guessTime;
-	}
-	
+
 	public String getResult() {
 		return result;
 	}
+
 	public void setResult(String result) {
-		this.guess = result;
+		this.result = result;
 	}
+
+	public Timestamp getGuessTime() {
+		return guessTime;
+	}
+
+	public void setGuessTime(Timestamp guessTime) {
+		this.guessTime = guessTime;
+	}
+
 	@Override
 	public String toString() {
-		return "Round [roundId=" + roundId + ", gameId=" + gameId + ", guess=" + guess + ", guessTime=" + guessTime
-				+ ", result=" + result + "]";
+		return "Round{" +
+				"roundId=" + roundId +
+				", gameId=" + gameId +
+				", guess='" + guess + '\'' +
+				", result='" + result + '\'' +
+				", guessTime=" + guessTime +
+				'}';
 	}
-		
-
 }

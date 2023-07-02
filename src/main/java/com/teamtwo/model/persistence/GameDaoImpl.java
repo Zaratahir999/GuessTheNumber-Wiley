@@ -1,4 +1,5 @@
 package com.teamtwo.model.persistence;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -14,12 +15,13 @@ public class GameDaoImpl implements GameDao {
 
 	@Override
 	public List<Game> getAllGames() {
-		return jdbcTemplate.query("SELECT * FROM game", new GameMapper());
+		return jdbcTemplate.query("SELECT * FROM GAME", new GameMapper());
 	}
+
 	@Override
 	public Game getGamebyId(int gameId) {
 		try {
-			return jdbcTemplate.queryForObject("SELECT * FROM game WHERE GAMEID = ?", new GameMapper(), gameId);
+			return jdbcTemplate.queryForObject("SELECT * FROM GAME WHERE GAMEID = ?", new GameMapper(), gameId);
 		}
 		catch (EmptyResultDataAccessException ex) {
 			return null;
@@ -29,7 +31,8 @@ public class GameDaoImpl implements GameDao {
 	@Override
 	public Game addGame(Game game) {
 		try {
-			jdbcTemplate.update("INSERT INTO game(answer) VALUES (?)",game.getAnswer());
+			jdbcTemplate.update("INSERT INTO GAME(ANSWER) VALUES (?)",
+					game.getAnswer());
 			game.setGameId(getLastGameId());
 			return game;
 		}catch (DataAccessException ex) {
@@ -37,26 +40,15 @@ public class GameDaoImpl implements GameDao {
 		}
 	}
 
-	private int getLastGameId() {
-		return jdbcTemplate.queryForObject("SELECT gameId FROM game ORDER BY gameId DESC LIMIT 1", Integer.class);
-	}
-
-
-//	@Override
-//	public int updateGame(String status, int gameId) {
-//		try {
-//			return jdbcTemplate.update("UPDATE GUESSNUMBER SET STATUS = ? WHERE GAMEID= ?", status, gameId);
-//
-//		}catch (Exception ex) {
-//			return 0;
-//		}
-//	}
 	@Override
 	public boolean updateGame(Game game) {
-		final String UPDATE_GAME = "UPDATE game SET ANSWER = ? , STATUS= ? WHERE GAMEID = ?";
-		return jdbcTemplate.update(UPDATE_GAME, game.getAnswer(),game.isFinished(), game.getGameId())>0;
-
+		return jdbcTemplate.update("UPDATE GAME SET ANSWER = ? , FINISHED= ? WHERE GAMEID = ?",
+				game.getAnswer(),
+				game.isFinished(),
+				game.getGameId())>0;
 	}
 
-
+	private int getLastGameId() {
+		return jdbcTemplate.queryForObject("SELECT GAMEID FROM GAME ORDER BY GAMEID DESC LIMIT 1", Integer.class);
+	}
 }

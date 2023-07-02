@@ -23,12 +23,12 @@ class GameDaoTest {
 	void testGetAllGames() {
 		Game game = new Game(0, null, false);
         game.setAnswer("1234");
-        game.setStatus(false);
+        game.setFinished(false);
         gameDao.addGame(game);
 
         Game game2 = new Game(0, null, false);
         game2.setAnswer("5678");
-        game2.setStatus(false);
+        game2.setFinished(false);
         gameDao.addGame(game2);
         
         List<Game> games = gameDao.getAllGames();
@@ -42,7 +42,7 @@ class GameDaoTest {
 	    public void testAddGetGame() {
 	        Game game = new Game(0, null, false);
 	        game.setAnswer("1234");
-	        game.setStatus(false);
+	        game.setFinished(false);
 	        game = gameDao.addGame(game);
 
 	        Game fromDao = gameDao.getGamebyId(game.getGameId());
@@ -54,14 +54,14 @@ class GameDaoTest {
 	    public void testUpdateGame() {
 	        Game game = new Game(0, null, false);
 	        game.setAnswer("1234");
-	        game.setStatus(false);
+	        game.setFinished(false);
 	        game = gameDao.addGame(game);
 
 	        Game fromDao = gameDao.getGamebyId(game.getGameId());
 
 	        assertEquals(game, fromDao);
 
-	        game.setStatus(true);
+	        game.setFinished(true);
 
 	        gameDao.updateGame(game);
 

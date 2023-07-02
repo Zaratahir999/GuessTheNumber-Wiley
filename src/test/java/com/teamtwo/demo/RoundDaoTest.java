@@ -27,7 +27,7 @@ class RoundDaoTest {
         
         Game game = new Game(gameId, null, false);
         game.setAnswer("5678");
-        game.setStatus(false);
+        game.setFinished(false);
         game = gameDao.addGame(game);
         
         Round round = new Round(roundId, gameId, null, null, null);

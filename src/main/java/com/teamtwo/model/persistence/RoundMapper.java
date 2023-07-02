@@ -2,23 +2,20 @@ package com.teamtwo.model.persistence;
 
 import com.teamtwo.entity.Round;
 import org.springframework.jdbc.core.RowMapper;
-
-import java.sql.Timestamp;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RoundMapper implements RowMapper<Round>{
-
     @Override
     public Round mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         Round round = new Round();
 
-        round.setRoundId(resultSet.getInt("roundId"));
-        round.setGameId(resultSet.getInt("gameId"));
-        round.setGuess(resultSet.getString("guess"));
-        round.setResult(resultSet.getString("result"));
-        round.setGuessTime(resultSet.getTimestamp("guessTime").toLocalDateTime());
+        round.setRoundId(resultSet.getInt("ROUNDID"));
+        round.setGameId(resultSet.getInt("GAMEID"));
+        round.setGuess(resultSet.getString("GUESS"));
+        round.setResult(resultSet.getString("RESULT"));
+        round.setGuessTime(resultSet.getTimestamp("GUESSTIME"));
+
         return round;
     }
 }
