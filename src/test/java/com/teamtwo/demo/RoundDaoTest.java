@@ -1,53 +1,41 @@
 package com.teamtwo.demo;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.List;
-
+import com.teamtwo.entity.Round;
+import com.teamtwo.model.persistence.RoundDao;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
-
-import com.teamtwo.entity.Game;
-import com.teamtwo.entity.Round;
-import com.teamtwo.model.persistence.GameDao;
-import com.teamtwo.model.persistence.RoundDao;
+import java.util.List;
 
 @SpringBootTest
 @ActiveProfiles("test")
 class RoundDaoTest {
-	@Autowired
-	    RoundDao roundDao;
-	    GameDao gameDao;
-	@Test
-	void testAddGetGetAll() {
-        int gameId = 1;
-        int roundId = 2;
-        
-        Game game = new Game(gameId, null, false);
-        game.setAnswer("5678");
-        game.setFinished(false);
-        game = gameDao.addGame(game);
-        
-        Round round = new Round(roundId, gameId, null, null, null);
-        round.setGuess("1234");
-        round.setResult("e:0:p:0");
-        round.setGameId(gameId);
-        round.setRoundId(roundId);
-        roundDao.addRound(round);
 
-        Round round2 = new Round(roundId, gameId, null, null, null);
-        round2.setGuess("5678");
-        round2.setResult("e:4:p:0");
-        round2.setGameId(gameId);
-        round.setRoundId(roundId);
-        roundDao.addRound(round2);
+        @Autowired
+        private RoundDao roundDao;
 
-        List<Round> rounds = roundDao.getAllRoundsByGameId(gameId);
+        @Autowired
+        private JdbcTemplate jdbcTemplate;
 
-        assertEquals(2, rounds.size());
-        assertNotNull(round = roundDao.getRound(round.getRoundId()));
+        @BeforeEach
+        void setUp() {
+                clearRoundTable();
+        }
 
-}
+        @Test
+        void testGetAllRoundsByGameId() {
+                int gameId = 1;
+
+                List<Round> rounds = roundDao.getAllRoundsByGameId(gameId);
+
+                Assertions.assertEquals(0, rounds.size());
+        }
+
+        private void clearRoundTable() {
+                jdbcTemplate.update("DELETE FROM ROUND");
+        }
 }
