@@ -1,4 +1,5 @@
 -Overview-
+
 In this activity, you will write a REST server to facilitate playing a number guessing game known as "Bulls and Cows". In each game, a 4-digit number is generated where every digit is different. For each round, the user guesses a number and is told the exact and partial digit matches.
 
 An exact match occurs when the user guesses the correct digit in the correct position.
@@ -6,6 +7,7 @@ A partial match occurs when the user guesses the correct digit but in the wrong 
 Once the number is guessed (exact matches for all digits) the user wins the game.
 
 -Requirements-
+
 You'll create a Spring Boot REST application using JDBC Template to access the database.
 
 A Game should have an answer and a status (in progress or finished). While the game is in progress, users should not be able to see the answer. The answer will be a 4-digit number with no duplicate digits.
